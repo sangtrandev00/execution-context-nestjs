@@ -1,10 +1,14 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException, HttpException } from '@nestjs/common';
 
 @Catch()
 export class ExceptionFilterFilter<T> implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
 
     console.log("exception: ", exception);
+
+    if (exception instanceof ForbiddenException) {
+      console.log("Bạn không có quyền đăng nhập resource này");
+    }
 
     const ctx = host.switchToHttp();
 
